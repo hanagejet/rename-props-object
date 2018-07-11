@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.9.4
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: npm install
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: test
+          command: npm test
+      - run:
+          name: code-coverage
+          command: './node_modules/.bin/nyc report --reporter=text-lcov'
+workflows:
+  version: 2
+  # TODO: auto publish
+  # per-commit:
+  #   jobs:
+  #     - test
+  #     - publish:
+  #         requires:
+  #           - test
+  #         context: org-global
+  #         filters:
+  #           branches:
+  #             only: master
