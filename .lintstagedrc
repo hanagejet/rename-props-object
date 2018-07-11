@@ -1,0 +1,7 @@
+{
+  "*.ts": [
+    "prettier --write",
+    "npm run tslint",
+    "git add"
+  ]
+}
