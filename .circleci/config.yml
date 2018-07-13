@@ -14,22 +14,19 @@ jobs:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
-      - run:
-          name: test
-          command: npm test
-      - run:
-          name: code-coverage
-          command: './node_modules/.bin/nyc report --reporter=text-lcov'
+      # TODO: add test
+      # - run:
+      #     name: test
+      #     command: npm test
 workflows:
   version: 2
-  # TODO: auto publish
-  # per-commit:
-  #   jobs:
-  #     - test
-  #     - publish:
-  #         requires:
-  #           - test
-  #         context: org-global
-  #         filters:
-  #           branches:
-  #             only: master
+  per-commit:
+    jobs:
+      - build
+      - publish:
+          requires:
+            - build
+          context: org-global
+          filters:
+            branches:
+              only: master
