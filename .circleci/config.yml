@@ -1,8 +1,12 @@
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.11.3-stretch-browsers
+
 version: 2
 jobs:
-  build:
-    docker:
-      - image: circleci/node:8.9.4
+  test:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
@@ -11,22 +15,40 @@ jobs:
           name: npm install
           command: npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
           paths:
-            - ./node_modules
-      # TODO: add test
-      # - run:
-      #     name: test
-      #     command: npm test
+            - node_modules
+          key: v1-dependencies-
+      - run:
+          name: Run tests
+          command: npm test
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish
+
 workflows:
   version: 2
-  per-commit:
+  test-deploy:
     jobs:
-      - build
-      - publish:
-          requires:
-            - build
-          context: org-global
+      - test:
           filters:
+            tags:
+              only: /^v.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            tags:
+              only: /^v.*/
             branches:
-              only: master
+              ignore: /.*/
