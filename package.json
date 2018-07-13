@@ -10,7 +10,7 @@
     "tsc": "tsc",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "precommit": "lint-staged",
-    "test": "npm test"
+    "test": "npm run tslint"
   },
   "repository": {
     "type": "git",
