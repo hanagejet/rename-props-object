@@ -1,17 +1,5 @@
-type Callback = (key: string) => string;
+import renameProps from './rename-props-object';
+import { toCamelCase } from './utils/toCamelCase';
 
-export const getRenameProp = (data: { [key: string]: any }, getNewKey: Callback): object =>
-  Object.keys(data).reduce((newData: { [key: string]: any }, key: string) => {
-    let value = data[key];
-    if (value instanceof Array) {
-      value = getRenameData(value, getNewKey);
-    } else if (typeof value === 'object') {
-      value = getRenameProp(value, getNewKey);
-    }
-    const newKey = getNewKey(key);
-    newData[newKey] = value;
-    return newData;
-  }, {});
-
-export const getRenameData = (json: object[], getNewKey: Callback) =>
-  json.map((item: object) => getRenameProp(item, getNewKey));
+export { toCamelCase };
+export default renameProps;
