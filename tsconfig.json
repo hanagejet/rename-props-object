@@ -1,14 +1,23 @@
 {
   "compilerOptions": {
+    "declaration": true,
     "target": "es2017",
-    "module": "es2015",
+    "module": "commonjs",
     "outDir": "lib",
-    "sourceMap": true
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "es2015",
+      "es2016"
+    ],
   },
   "include": [
     "src/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/__tests__",
+    "**/*.test.ts",
+    "lib"
   ]
 }
