@@ -1,6 +1,6 @@
 {
   "name": "rename-props-object",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "rename object properties",
   "main": "lib/index.js",
   "files": [
