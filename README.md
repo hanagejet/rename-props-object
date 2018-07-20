@@ -14,32 +14,6 @@ const result = renameProps.getRenameData(
   response,
   toCamelCase, // or your callback function. Please make pull request🙏
 );
+
+console.log(result); // [{ fooBar: 'foo' }]
 ```
-
-### renameProps.getRenameData(array, callback)
-
-#### Arguments
-**array**
-
-Required
-
-**callback**
-
-Required. Should return the property name you want
-
-#### Return
-The same argument is returned
-
-### renameProps.getRenameProp(object, callback)
-
-#### Arguments
-**object**
-
-Required
-
-**callback**
-
-Required. Should return the property name you want
-
-#### Return
-The same argument is returned
