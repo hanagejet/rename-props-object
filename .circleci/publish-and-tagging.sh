@@ -7,6 +7,6 @@ if [[ "$REPO_VERSION" = "$LOCAL_VERSION" ]]; then
   echo "$LOCAL_VERSION exists. skip publish."
 else
   npm publish
-  git tag ${LOCAL_VERSION}
+  git tag v${LOCAL_VERSION}
   git push --tags origin
 fi
